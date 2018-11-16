@@ -1,3 +1,3 @@
 # hello_sql_world
-First SQL project
-wat?
+##My first SQL project
+'''Go to start.md 
