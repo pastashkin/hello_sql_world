@@ -1,18 +1,23 @@
-version: '2'
+version: '3.1'
+
 services:
-  postgres_host:
-    image: postgres:10-alpine
+  postgres:
+    image: postgres
     restart: always
-    ports: ["5435:5432"]
-  data-client:
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports: ["5432:5432"]
+
+  ubuntu:
     build:
       context: .
     depends_on:
-      - postgres_host
-    tty: true
+      - postgres
     environment:
-      - APP_POSTGRES_HOST=postgres_host
+      - APP_POSTGRES_HOST=postgres
       - APP_POSTGRES_PORT=5432
     volumes:
       - /home/data/hello_sql_world:/data
-    links: [postgres_host]
+    links: [postgres]
+    tty: true
