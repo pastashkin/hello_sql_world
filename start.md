@@ -1,9 +1,9 @@
 Привет!
 Ниже описание моего первого мини-проекта по docker и postgresql
 
-git add .
-git commit -m "readme"
-git push -u https://github.com/pastashkin/hello_sql_world.git master
+	git add .
+	git commit -m "readme"
+	git push -u https://github.com/pastashkin/hello_sql_world.git master
 
 
 Для работы нам потребуются:
@@ -16,22 +16,29 @@ git push -u https://github.com/pastashkin/hello_sql_world.git master
 Эти команды нужны только мне, чтобы убедиться, что я нормально развернул контейнеры
 
 Останавливаем все контейнеры
-    sudo docker stop $(sudo docker ps -aq)
+
+	sudo docker stop $(sudo docker ps -aq)
+
 Удаляем все контейнеры
-    sudo docker rm $(sudo docker ps -aq)
+
+	sudo docker rm $(sudo docker ps -aq)
+
 Удаляем все образы
+    
     sudo docker rmi $(sudo docker images -aq) -f
 
 
 Поехали!
 Первым делом клонируем мой репозиторий:
-    sudo git clone https://github.com/pastashkin/hello_sql_world.git
+    
+	sudo git clone https://github.com/pastashkin/hello_sql_world.git
 
 У меня он клонируется в /home/data)hello_sql_world 
 Далее будем работать именно с этой директорией
 
 Переходим в директория с файлами докера:
-    cd /home/data/hello_sql_world/docker-compose
+
+	cd /home/data/hello_sql_world/docker-compose
 
 Перед сборкой контейнера протянем наши папки внутрь контейнера.
 Для этого изменим файл docker-compose.yml:
@@ -40,13 +47,18 @@ git push -u https://github.com/pastashkin/hello_sql_world.git master
       - /home/data/hello_sql_world:/data
 
 Теперь собираем
-    sudo docker-compose --project-name hellosql -f docker-compose.yml up --build -d
+
+	sudo docker-compose --project-name hellosql -f docker-compose.yml up --build -d
+
 И запускаем контейнер
-    sudo docker-compose --project-name hellosql -f docker-compose.yml run --rm ubuntu
+    
+	sudo docker-compose --project-name hellosql -f docker-compose.yml run --rm ubuntu
 
 Если все прошло удачно, мы попадаем в кмандную строку убунты
-Из нее запускаем postgres. User: postgres Password: postgres
-    psql --host $POSTGRES_HOST -U postgres
+Из нее запускаем postgres. 
+User: postgres Password: postgres
+    
+	psql --host $POSTGRES_HOST -U postgres
 
 Отлично!
 Теперь нам нужно создать и наполнить наши таблицы.
@@ -89,9 +101,9 @@ git push -u https://github.com/pastashkin/hello_sql_world.git master
 	);
 
 Наполняем:
-    \copy skus FROM '/data/tables/skus.csv' DELIMITER ';' CSV HEADER
-    \copy calendars FROM '/data/tables/calendars.csv' DELIMITER ';' CSV HEADER
-    \copy prices FROM '/data/tables/prices.csv' DELIMITER ';' CSV HEADER
-    \copy customers FROM '/data/tables/customers.csv' DELIMITER ';' CSV HEADER
-    \copy sales FROM '/data/tables/sales.csv' DELIMITER ';' CSV HEADER
 
+	\copy skus FROM '/data/tables/skus.csv' DELIMITER ';' CSV HEADER
+	\copy calendars FROM '/data/tables/calendars.csv' DELIMITER ';' CSV HEADER
+	\copy prices FROM '/data/tables/prices.csv' DELIMITER ';' CSV HEADER
+	\copy customers FROM '/data/tables/customers.csv' DELIMITER ';' CSV HEADER
+	\copy sales FROM '/data/tables/sales.csv' DELIMITER ';' CSV HEADER
