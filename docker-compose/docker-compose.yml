@@ -15,8 +15,10 @@ services:
     depends_on:
       - postgres
     environment:
-      - APP_POSTGRES_HOST=postgres
-      - APP_POSTGRES_PORT=5432
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
     volumes:
       - /home/data/hello_sql_world:/data
     links: [postgres]

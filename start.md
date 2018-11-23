@@ -1,5 +1,10 @@
 Привет!
-Ниже описание моего первого пмини-проекта по docker и postgresql
+Ниже описание моего первого мини-проекта по docker и postgresql
+
+git add .
+git commit -m "readme"
+git push -u https://github.com/pastashkin/hello_sql_world.git master
+
 
 Для работы нам потребуются:
 1. Убунта (у меня Ubuntu 18.04.1 LTS)
@@ -29,7 +34,7 @@ sudo git clone https://github.com/pastashkin/hello_sql_world.git
 cd /home/data/hello_sql_world/docker-compose
 
 Перед сборкой контейнера протянем наши папки внутрь контейнера.
-Для этого измений файл docker-compose.yml:
+Для этого изменим файл docker-compose.yml:
 
     volumes:
       - /home/data/hello_sql_world:/data
@@ -39,4 +44,54 @@ sudo docker-compose --project-name hellosql -f docker-compose.yml up --build -d
 И запускаем контейнер
 sudo docker-compose --project-name hellosql -f docker-compose.yml run --rm ubuntu
 
+Если все прошло удачно, мы попадаем в кмандную строку убунты
+Из нее запускаем postgres. User: postgres Password: postgres
+psql --host $POSTGRES_HOST -U postgres
+
+Отлично!
+Теперь нам нужно создать и наполнить наши таблицы.
+Создаем:
+
+CREATE TABLE skus (
+	sku_id INTEGER NOT NULL,
+	sku_name VARCHAR(90) NOT NULL,
+	sku_brand VARCHAR(90) NOT NULL,
+	PRIMARY KEY (sku_id)
+);
+
+CREATE TABLE calendars (
+	dt DATE NOT NULL,
+	date_weekday VARCHAR(3) NOT NULL,
+	wrhs_open BOOLEAN NOT NULL,
+	PRIMARY KEY (dt)
+);
+
+CREATE TABLE customers (
+	customer_id INTEGER NOT NULL,
+	customer_name VARCHAR(90) NOT NULL,
+	customer_region VARCHAR(90) NOT NULL,
+	PRIMARY KEY (customer_id)
+);
+
+CREATE TABLE prices (
+	sku_id INTEGER NOT NULL,
+	dt DATE NOT NULL,
+	price NUMERIC NOT NULL,
+	PRIMARY KEY (sku_id,dt)
+);
+
+CREATE TABLE sales (
+	dt DATE NOT NULL REFERENCES calendars(dt),
+	sku_id INTEGER NOT NULL REFERENCES skus(sku_id),
+	customer_id INTEGER NOT NULL REFERENCES customers(customer_id),
+	wrhs_name VARCHAR(90) NOT NULL,
+	qnt INTEGER NOT NULL
+);
+
+Наполняем:
+	\copy skus FROM '/data/tables/skus.csv' DELIMITER ';' CSV HEADER
+	\copy calendars FROM '/data/tables/calendars.csv' DELIMITER ';' CSV HEADER
+	\copy prices FROM '/data/tables/prices.csv' DELIMITER ';' CSV HEADER
+	\copy customers FROM '/data/tables/customers.csv' DELIMITER ';' CSV HEADER
+	\copy sales FROM '/data/tables/sales.csv' DELIMITER ';' CSV HEADER
 
