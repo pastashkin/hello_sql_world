@@ -103,4 +103,37 @@ User: postgres Password: postgres
 
 Запросы к БД:
 
-	SELECT sa.dt, sk.sku_name, sk.sku_brand, cu.customer_name, cu.customer_region, sa.wrhs_name, sa.qnt FROM sales sa JOIN skus sk ON sa.sku_id = sk.sku_id JOIN customers cu ON cu.customer_id = sa.customer_id LIMIT 10;
+Соединим таблицы sales, skus, customers:
+
+	SELECT 
+		sa.dt,
+		sk.sku_name,
+		sk.sku_brand,
+		cu.customer_name,
+		cu.customer_region,
+		sa.wrhs_name,
+		sa.qnt 
+	FROM sales sa 
+	JOIN skus sk ON sa.sku_id = sk.sku_id 
+	JOIN customers cu ON cu.customer_id = sa.customer_id LIMIT 10;
+
+Создадим хранимую процедуру, которая будет выводить стоимость транзакции в рублях:
+
+	CREATE OR REPLACE FUNCTION qnt_price (dt DATE, sku_id INTEGER, qnt NUMERIC) RETURNS NUMERIC language sql AS $FUNCTION$
+		SELECT $3 * (SELECT price FROM prices WHERE dt = $1 AND sku_id = $2) AS qnt_price;
+	$FUNCTION$;
+
+Проверим ее работу:
+
+	SELECT 
+		sa.dt,
+		sk.sku_name,
+		sk.sku_brand,
+		cu.customer_name,
+		cu.customer_region,
+		sa.wrhs_name,
+		sa.qnt,
+		qnt_price(sa.dt, sa.sku_id, sa.qnt) AS price 
+	FROM sales sa 
+	JOIN skus sk ON sa.sku_id = sk.sku_id 
+	JOIN customers cu ON cu.customer_id = sa.customer_id LIMIT 10;
