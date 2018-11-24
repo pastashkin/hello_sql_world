@@ -9,6 +9,7 @@
 Для работы нам потребуются:
 1. Убунта (у меня Ubuntu 18.04.1 LTS)
 2. Docker и docker-compose (у меня 18.06.1-ce и 1.17.1)
+3. git
 
 Лично у меня, в ходе обучения, набралось огромное количество контейнеров и образов. 
 Первым делом решиль почистить докер.
@@ -19,7 +20,7 @@
 
 	sudo docker stop $(sudo docker ps -aq)
 	sudo docker rm $(sudo docker ps -aq)
-    sudo docker rmi $(sudo docker images -aq) -f
+	sudo docker rmi $(sudo docker images -aq) -f
 
 Поехали!
 Первым делом клонируем мой репозиторий:
