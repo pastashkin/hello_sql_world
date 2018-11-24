@@ -15,18 +15,11 @@
 ВАЖНО: Не выполняй эти команды, если у тебя все настроено.
 Эти команды нужны только мне, чтобы убедиться, что я нормально развернул контейнеры
 
-Останавливаем все контейнеры
+Останавливаем и удаляем все контейнеры, а затем и образы
 
 	sudo docker stop $(sudo docker ps -aq)
-
-Удаляем все контейнеры
-
 	sudo docker rm $(sudo docker ps -aq)
-
-Удаляем все образы
-    
     sudo docker rmi $(sudo docker images -aq) -f
-
 
 Поехали!
 Первым делом клонируем мой репозиторий:
@@ -73,7 +66,7 @@ User: postgres Password: postgres
 
 	CREATE TABLE calendars (
 		dt DATE NOT NULL,
-		date_weekday VARCHAR(3) NOT NULL,
+		dt_weekday VARCHAR(3) NOT NULL,
 		wrhs_open BOOLEAN NOT NULL,
 		PRIMARY KEY (dt)
 	);
@@ -86,8 +79,8 @@ User: postgres Password: postgres
 	);
 
 	CREATE TABLE prices (
-		sku_id INTEGER NOT NULL,
-		dt DATE NOT NULL,
+		dt DATE NOT NULL REFERENCES calendars(dt),
+		sku_id INTEGER NOT NULL REFERENCES skus(sku_id),
 		price NUMERIC NOT NULL,
 		PRIMARY KEY (sku_id,dt)
 	);
@@ -107,3 +100,7 @@ User: postgres Password: postgres
 	\copy prices FROM '/data/tables/prices.csv' DELIMITER ';' CSV HEADER
 	\copy customers FROM '/data/tables/customers.csv' DELIMITER ';' CSV HEADER
 	\copy sales FROM '/data/tables/sales.csv' DELIMITER ';' CSV HEADER
+
+Запросы к БД:
+
+	SELECT sa.dt, sk.sku_name, sk.sku_brand, sa.customer_id, sa.wrhs_name, sa.qnt FROM sales sa JOIN skus sk ON sa.sku_id = sk.sku_id LIMIT 10;
