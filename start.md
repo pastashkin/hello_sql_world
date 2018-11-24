@@ -103,4 +103,4 @@ User: postgres Password: postgres
 
 Запросы к БД:
 
-	SELECT sa.dt, sk.sku_name, sk.sku_brand, sa.customer_id, sa.wrhs_name, sa.qnt FROM sales sa JOIN skus sk ON sa.sku_id = sk.sku_id LIMIT 10;
+	SELECT sa.dt, sk.sku_name, sk.sku_brand, cu.customer_name, cu.customer_region, sa.wrhs_name, sa.qnt FROM sales sa JOIN skus sk ON sa.sku_id = sk.sku_id JOIN customers cu ON cu.customer_id = sa.customer_id LIMIT 10;
