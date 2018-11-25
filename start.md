@@ -22,7 +22,7 @@
 	sudo docker rm $(sudo docker ps -aq)
 	sudo docker rmi $(sudo docker images -aq) -f
 
-### Поехали!
+## Поехали!
 ## Первым делом клонируем мой репозиторий:
     
 	sudo git clone https://github.com/pastashkin/hello_sql_world.git
@@ -54,7 +54,7 @@ User: postgres Password: postgres
     
 	psql --host $POSTGRES_HOST -U postgres
 
-### Отлично!
+## Отлично!
 ## Теперь нам нужно создать и наполнить наши таблицы.
 Создаем:
 
@@ -140,6 +140,7 @@ User: postgres Password: postgres
 	JOIN customers cu ON cu.customer_id = sa.customer_id LIMIT 10;
 
 Найдем топ-10 контрагентов продажам за январь:
+
 	SELECT 
 		DISTINCT cu.customer_name,
 		ROUND(SUM(qnt_price(sa.dt, sa.sku_id, sa.qnt)) OVER (PARTITION BY sa.customer_id), 2) AS total_sales
@@ -194,6 +195,7 @@ User: postgres Password: postgres
 
 Разделим все продажи на две таблицы опт и розница.
 Создадим функцию поиска среднего значения закупки:
+	
 	#Функция возвращает среднее значение продаж
 	CREATE OR REPLACE FUNCTION sales_avg () RETURNS NUMERIC language sql AS $FUNCTION$
 		SELECT 1 * (SELECT avg(qnt) FROM sales LIMIT 1) AS sales_avg;
@@ -332,4 +334,4 @@ User: postgres Password: postgres
 	ORDER BY dt
 	LIMIT 10;
 
-На этом все.
+### На этом все.
