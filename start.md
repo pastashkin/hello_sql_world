@@ -3,6 +3,8 @@
 	
 	Здесь лежит схема данных: [Схема данных](https://github.com/pastashkin/hello_sql_world/blob/master/schema.png)
 
+	[пример](http://example.com/ "Необязательная подсказка")
+
 ### Для работы нам потребуются:
 1. Убунта (у меня Ubuntu 18.04.1 LTS)
 2. Docker и docker-compose (у меня 18.06.1-ce и 1.17.1)
