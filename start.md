@@ -1,13 +1,16 @@
 # Привет!
-## Ниже описание моего первого мини-проекта по docker и postgresql
+### Ниже описание моего первого мини-проекта по docker и postgresql
 Он представляет из себя простую базу данных и набор SQL запросов к ней.
 Бизнес область - учет продаж фарм производителя, на основе получаемых от дистрибьютора данных.
 В ходе реализации проекта будут также созданы вспомогательные таблицы и хранимые процедуры.
 
-[Описание БД, ее таблиц, логики, связей и бизнес области (формат .pdf)](https://github.com/)
-[Список SQL запросов с их описанием (формат .sql)](https://github.com/)
+![Схема данных](https://github.com/pastashkin/hello_sql_world/blob/master/schema.png)
 
-## Для работы нам потребуются:
+[Описание БД, ее таблиц, логики, связей и бизнес области (формат .pdf)](https://github.com/pastashkin/hello_sql_world/blob/master/project.pdf)
+
+[Список SQL запросов с их описанием (формат .sql)](https://github.com/pastashkin/hello_sql_world/blob/master/queries.sql)
+
+### Для работы нам потребуются:
 1. Убунта (у меня Ubuntu 18.04.1 LTS)
 2. Docker и docker-compose (у меня 18.06.1-ce и 1.17.1)
 3. git
@@ -23,8 +26,8 @@
 	sudo docker rm $(sudo docker ps -aq)
 	sudo docker rmi $(sudo docker images -aq) -f
 
-## Поехали!
-## Первым делом клонируем мой репозиторий:
+### Поехали!
+### Первым делом клонируем мой репозиторий:
     
 	sudo git clone https://github.com/pastashkin/hello_sql_world.git
 
@@ -55,8 +58,8 @@ User: postgres Password: postgres
     
 	psql --host $POSTGRES_HOST -U postgres
 
-## Отлично!
-## Теперь нам нужно создать и наполнить наши таблицы.
+### Отлично!
+### Теперь нам нужно создать и наполнить наши таблицы.
 Создаем:
 
 	CREATE TABLE skus (
@@ -103,7 +106,7 @@ User: postgres Password: postgres
 	\copy customers FROM '/data/tables/customers.csv' DELIMITER ';' CSV HEADER
 	\copy sales FROM '/data/tables/sales.csv' DELIMITER ';' CSV HEADER
 
-## Запросы к БД:
+### Запросы к БД:
 
 Соединим таблицы sales, skus, customers:
 
