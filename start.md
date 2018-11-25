@@ -2,8 +2,8 @@
 Ниже описание моего первого мини-проекта по docker и postgresql
 	
 	Здесь лежит схема данных: 
-	[Схема данных]
-	[Схема данных]:https://github.com/pastashkin/hello_sql_world/blob/master/schema.png
+
+	[Схема данных](https://github.com/pastashkin/hello_sql_world/blob/master/schema.png)
 
 ### Для работы нам потребуются:
 1. Убунта (у меня Ubuntu 18.04.1 LTS)
