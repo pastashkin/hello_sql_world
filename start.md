@@ -1,4 +1,4 @@
-Привет!
+# Привет!
 Ниже описание моего первого мини-проекта по docker и postgresql
 
 	git add .
@@ -6,7 +6,7 @@
 	git push -u https://github.com/pastashkin/hello_sql_world.git master
 
 
-Для работы нам потребуются:
+### Для работы нам потребуются:
 1. Убунта (у меня Ubuntu 18.04.1 LTS)
 2. Docker и docker-compose (у меня 18.06.1-ce и 1.17.1)
 3. git
@@ -22,8 +22,8 @@
 	sudo docker rm $(sudo docker ps -aq)
 	sudo docker rmi $(sudo docker images -aq) -f
 
-Поехали!
-Первым делом клонируем мой репозиторий:
+### Поехали!
+## Первым делом клонируем мой репозиторий:
     
 	sudo git clone https://github.com/pastashkin/hello_sql_world.git
 
@@ -54,8 +54,8 @@ User: postgres Password: postgres
     
 	psql --host $POSTGRES_HOST -U postgres
 
-Отлично!
-Теперь нам нужно создать и наполнить наши таблицы.
+### Отлично!
+## Теперь нам нужно создать и наполнить наши таблицы.
 Создаем:
 
 	CREATE TABLE skus (
@@ -102,7 +102,7 @@ User: postgres Password: postgres
 	\copy customers FROM '/data/tables/customers.csv' DELIMITER ';' CSV HEADER
 	\copy sales FROM '/data/tables/sales.csv' DELIMITER ';' CSV HEADER
 
-Запросы к БД:
+## Запросы к БД:
 
 Соединим таблицы sales, skus, customers:
 
@@ -331,3 +331,5 @@ User: postgres Password: postgres
 	GROUP BY dt
 	ORDER BY dt
 	LIMIT 10;
+
+На этом все.
