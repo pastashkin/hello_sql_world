@@ -1,6 +1,6 @@
 # Привет!
 ### Ниже описание моего первого мини-проекта по docker и postgresql
-Он представляет из себя простую базу данных и набор SQL запросов к ней.
+Проект представляет из себя простую базу данных и набор SQL запросов к ней.
 Бизнес область - учет продаж фарм производителя, на основе получаемых от дистрибьютора данных.
 В ходе реализации проекта будут также созданы вспомогательные таблицы и хранимые процедуры.
 
@@ -11,9 +11,9 @@
 [Список SQL запросов с их описанием (формат .sql)](https://github.com/pastashkin/hello_sql_world/blob/master/queries.sql)
 
 ### Для работы нам потребуются:
-1. Убунта (у меня Ubuntu 18.04.1 LTS)
+1. Linux-дистрибутив (у меня Ubuntu 18.04.1 LTS)
 2. Docker и docker-compose (у меня 18.06.1-ce и 1.17.1)
-3. git
+3. GIT
 
 Лично у меня, в ходе обучения, набралось огромное количество контейнеров и образов. 
 Первым делом решиль почистить докер.
@@ -31,10 +31,10 @@
     
 	sudo git clone https://github.com/pastashkin/hello_sql_world.git
 
-У меня он клонируется в /home/data)hello_sql_world 
+У меня он клонируется в /home/data/hello_sql_world 
 Далее будем работать именно с этой директорией
 
-Переходим в директория с файлами докера:
+Переходим в директорию с файлами докера:
 
 	cd /home/data/hello_sql_world/docker-compose
 
@@ -54,7 +54,9 @@
 
 Если все прошло удачно, мы попадаем в кмандную строку убунты
 Из нее запускаем postgres. 
-User: postgres Password: postgres
+
+	User: postgres 
+	Password: postgres
     
 	psql --host $POSTGRES_HOST -U postgres
 
@@ -143,7 +145,7 @@ User: postgres Password: postgres
 	JOIN skus sk ON sa.sku_id = sk.sku_id 
 	JOIN customers cu ON cu.customer_id = sa.customer_id LIMIT 10;
 
-Найдем топ-10 контрагентов продажам за январь:
+Найдем топ-10 контрагентов по продажам за январь:
 
 	SELECT 
 		DISTINCT cu.customer_name,
@@ -155,7 +157,7 @@ User: postgres Password: postgres
 	ORDER BY total_sales DESC
 	LIMIT 10;
 
-Узнаем, какие бренды лучше всего продавались у этих контрагентов (составим топ по брендам):
+Узнаем, какие бренды лучше всего продавались у этих контрагентов (составим топ по брендам у лучших контрагенов):
 
 	WITH 
 	top10_jan AS (
@@ -239,7 +241,7 @@ User: postgres Password: postgres
 	DO INSTEAD INSERT INTO sales_wholesale VALUES ( NEW.* );
 
 Наполняем sales_full. 
-Получился довольно прожорливый до ресерсов запрос - на моей машине его выполнение займет около 25 минут.
+Получился довольно прожорливый до ресурсов запрос - на моей машине его выполнение займет около 25 минут.
 Было решено ограничить запрос первой неделей января (~15 секунд):
 
 	INSERT INTO sales_full (
@@ -274,7 +276,7 @@ User: postgres Password: postgres
 	);
 
 В нашем календаре есть отметка о графике работы склада.
-Далее работать будем только с таблицей sales_full.
+Далее работать будем с таблицей sales_full.
 Узнаем сколько оптовых отгрузок пришлось на дни, когда склад был закрыт (значение calendars.wrhs_open = False)
 
 	SELECT COUNT(*) AS sales_when_wrhs_is_closed FROM sales_wholesale sa JOIN calendars ca ON sa.dt = ca.dt WHERE ca.wrhs_open IS False;
@@ -298,7 +300,7 @@ User: postgres Password: postgres
 
 Как видим из выгрузки, складу лучше отыхать по субботам и воскресеньям.
 
-Выведем топ-10 регионов по розничным продажам в рублях:	
+Выведем топ-10 регионов по розничным продажам в рублях из таблицы sales:	
 	
 	WITH retail_sales AS (
 		SELECT 
@@ -319,7 +321,7 @@ User: postgres Password: postgres
 	ORDER BY region_sum DESC
 	LIMIT 10;
 
-Посчитаем среднюю продажу в рублях на одного контрагента в разреде дней продаж:
+Посчитаем среднюю продажу в рублях на одного контрагента в разрезе дней продаж:
 	
 	SELECT 
 		dt,
