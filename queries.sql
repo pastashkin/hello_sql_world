@@ -122,6 +122,7 @@
 # Создадим функцию поиска среднего значения закупки:
 	
 # Функция возвращает среднее значение продаж
+	
 	CREATE OR REPLACE FUNCTION sales_avg () RETURNS NUMERIC language sql AS $FUNCTION$
 		SELECT 1 * (SELECT avg(qnt) FROM sales LIMIT 1) AS sales_avg;
 	$FUNCTION$;
@@ -161,7 +162,7 @@
 
 # Наполняем sales_full. 
 # Получился довольно прожорливый до ресурсов запрос - на моей машине его выполнение займет около 25 минут.
-# Было решено ограничить запрос первой неделей января (~15 секунд):
+# Было решено ограничить запрос первой неделей января (~35 секунд):
 
 	INSERT INTO sales_full (
 		SELECT 
@@ -202,7 +203,7 @@
 
 # И сколько всего было оптовых закупок в этот период:
 
-	SELECT COUNT(*) AS sales_total FROM sales_wholesale
+	SELECT COUNT(*) AS sales_total FROM sales_wholesale;
 
 # Ого, почти 84% отгрузок были совершены, когда склад был закрыт - плохо.
 
